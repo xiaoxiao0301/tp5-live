@@ -4,6 +4,9 @@
 namespace app\common\lib\ali;
 
 use think\facade\Log;
+use AlibabaCloud\Client\AlibabaCloud;
+use AlibabaCloud\Client\Exception\ClientException;
+use AlibabaCloud\Client\Exception\ServerException;
 
 class SendSms
 {
@@ -55,16 +58,47 @@ class SendSms
      */
     public function sendSms(string $phone, string $code)
     {
+        /**
+         *  composer require alibabacloud/client
+         */
+        try {
+            AlibabaCloud::accessKeyClient($this->accessKeyId, $this->accessSecret)
+                ->regionId('cn-hangzhou')
+                ->asDefaultClient();
+        } catch (ClientException $e) {
+            Log::debug('密钥设置错误: '.$e->getMessage());
+        }
 
-
-
-
-
-
-
-
-
-        Log::debug("手机号: ".$phone.",发送验证码:".$code);
+        try {
+            $result = AlibabaCloud::rpc()
+                ->product('Dysmsapi')
+                // ->scheme('https') // https | http
+                ->version('2017-05-25')
+                ->action('SendSms')
+                ->method('POST')
+                ->host('dysmsapi.aliyuncs.com')
+                ->options([
+                    'query' => [
+                        'RegionId' => "cn-hangzhou",
+                        'PhoneNumbers' => $phone,
+                        'SignName' => $this->signName,
+                        'TemplateCode' => $this->templateCode,
+                        // {"code": "1234"}
+                        'TemplateParam' => '{"code": "'.$code.'"}',
+                    ],
+                ])
+                ->request();
+        } catch (ClientException $e) {
+            echo $e->getErrorMessage() . PHP_EOL;
+        } catch (ServerException $e) {
+            echo $e->getErrorMessage() . PHP_EOL;
+        }
+        $data = $result->toArray();
+        if ($data['code'] == 'OK') {
+            Log::debug("手机号: ".$phone.",发送验证码:".$code);
+        } else {
+            Log::error("手机号: ".$phone.",发送验证码:".$code. "失败：" .json_encode($data));
+        }
     }
 
     private function setConfig()
