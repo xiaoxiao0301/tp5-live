@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Websocket</title>
+</head>
+<body>
+<h1>Swoole ws client</h1>
+<script>
+    let wsURL = "ws://127.0.0.1:8001";
+    // 创建对象
+    let ws = new WebSocket(wsURL);
+    // 实例对象的onopen属性,连接成功的回调函数 Event
+    ws.onopen = function (ev) {
+        console.log("connect-swoole-success");
+        console.log(ev);
+        // let urls = '{"url": "index/socket_message/recv"}';
+        let data = '{"url": "index/socket_message/recv", "content": "Hello,Server"}';
+        ws.send(data);
+    };
+    // 实例对象的onmessage属性, 接受服务器端数据回调 MessageEvent
+    ws.onmessage = function (ev) {
+        console.log("ws-server-return-data: "+ev.data);
+        console.log(ev);
+    };
+
+    // error
+    ws.onerror = function(ev, e) {
+        console.log("error: " + ev.data)
+        console.log(ev);
+        console.log(e);
+    };
+
+    // 实例化onclose closeEvent
+    ws.onclose = function (ev) {
+        console.log("close");
+        console.log(ev);
+    };
+</script>
+
+</body>
+</html>

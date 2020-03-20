@@ -15,3 +15,6 @@ Route::get('/login', 'Index/login/login')->name('user.login');
 Route::post('/send', 'Index/login/send')->name('send_sms');
 // 登陆
 Route::post('/do_login', 'Index/login/do_login')->name('user.do_login');
+
+// WebSocket onMessage
+Route::get('recv', 'Index/socket_message/recv')->name('socket_on_message');
