@@ -44,14 +44,14 @@ class Login extends Controller
         app('swoole')->task(new SmsTask($taskData));
 
         // 发送成功后逻辑
-        \Co::set(['hook_flags' => SWOOLE_HOOK_TCP]);
-        go(function () use($phone, $code) {
-            $redis = RedisClient::getInstance();
-            $redis->setex('sms_'.$phone, Code::PHONE_KEY_EXPR_TIME, $code);
-            defer(function () use($redis) {
-                $redis->close();
-            });
-        });
+//        \Co::set(['hook_flags' => SWOOLE_HOOK_TCP]);
+//        go(function () use($phone, $code) {
+//            $redis = RedisClient::getInstance();
+//            $redis->setex('sms_'.$phone, Code::PHONE_KEY_EXPR_TIME, $code);
+//            defer(function () use($redis) {
+//                $redis->close();
+//            });
+//        });
 
         return Util::show(Code::SUCCESS, '验证码发送成功');
     }

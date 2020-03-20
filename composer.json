@@ -19,7 +19,8 @@
         "php": ">=5.6.0",
         "topthink/framework": "5.1.*",
         "topthink/think-swoole": "2.0.*",
-        "alibabacloud/client": "^1.5"
+        "alibabacloud/client": "^1.5",
+        "topthink/think-migration": "2.*"
     },
     "autoload": {
         "psr-4": {
