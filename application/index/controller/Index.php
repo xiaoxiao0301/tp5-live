@@ -2,6 +2,7 @@
 namespace app\index\controller;
 
 use think\Controller;
+use think\swoole\WebSocketFrame;
 
 class Index extends Controller
 {
@@ -15,10 +16,14 @@ class Index extends Controller
         return date('Y-m-d H:i:s');
     }
 
+
     public function testWebSocket()
     {
         return $this->fetch('test');
     }
 
-
+    public function detail()
+    {
+        return $this->fetch();
+    }
 }

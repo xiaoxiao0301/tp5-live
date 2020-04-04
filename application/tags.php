@@ -25,4 +25,7 @@ return [
     'log_write'    => [],
     // 应用结束
     'app_end'      => [],
+    'swoole_websocket_on_close' => [
+        'app\\common\\lib\\behavior\\WebsocketsClose'
+    ]
 ];

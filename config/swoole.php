@@ -21,11 +21,12 @@ return [
     'mode'                  => '', // 运行模式 默认为SWOOLE_PROCESS
     'sock_type'             => '', // sock type 默认为SWOOLE_SOCK_TCP
     'server_type'           => 'websocket', // 服务类型 支持 http websocket
-    'app_path'              => '/var/www/html/thinkphp-env/live/application', // 应用地址 如果开启了 'daemonize'=>true 必须设置（使用绝对路径）
+//    'app_path'              => '/var/www/html/thinkphp-env/tp5-live/application', // 应用地址 如果开启了 'daemonize'=>true 必须设置（使用绝对路径）
+    'app_path'              => '', // 应用地址 如果开启了 'daemonize'=>true 必须设置（使用绝对路径）
     'file_monitor'          => false, // 是否开启PHP文件更改监控（调试模式下自动开启）
     'file_monitor_interval' => 2, // 文件变化监控检测时间间隔（秒）
     'file_monitor_path'     => [], // 文件监控目录 默认监控application和config目录
-    'daemonize'             => true, // 守护进程模式
+    'daemonize'             => false, // 守护进程模式
 
     // 可以支持swoole的所有配置参数
     'pid_file'              => Env::get('runtime_path') . 'swoole.pid',
@@ -35,6 +36,12 @@ return [
     'timer'                 => true,//是否开启系统定时器
     'interval'              => 500,//系统定时器 时间间隔
     'task_worker_num'       => 4,//swoole 任务工作进程数量
+    'Open' => function ($server, $request) {
+        echo "server: handshake success with fd {$request->fd}\n";
+        // 记录链接的用户 有序结合
+        $redis = \app\common\lib\db\RedisClient::getInstance();
+        $redis->sAdd(config('redis.live_outs_key'), $request->fd);
+    },
 ];
 
 

@@ -185,6 +185,40 @@ class RedisClient
         return $this->conn->hGetAll($key);
     }
 
+
+    /**
+     * 集合添加数据
+     * @param string $key
+     * @param string $value
+     * @return bool
+     */
+    public function sAdd(string $key, string $value):bool
+    {
+        return $this->conn->sAdd($key, $value);
+    }
+
+
+    /**
+     * 删除集合中的元素
+     * @param string $key
+     * @param string $value
+     * @return int
+     */
+    public function sRem(string $key, string $value):int
+    {
+        return $this->conn->sRem($key, $value);
+    }
+
+    /**
+     * 返回集合中key的所有元素
+     * @param string $key
+     * @return array
+     */
+    public function sMembers(string $key):array
+    {
+        return $this->conn->sMembers($key);
+    }
+
     /**
      * 释放连接
      * @return mixed

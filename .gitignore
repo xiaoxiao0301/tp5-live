@@ -6,3 +6,4 @@ thinkphp
 .env
 .DS_Store
 /runtime
+将删除 runtime/swoole.pid_8001

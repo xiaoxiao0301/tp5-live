@@ -18,3 +18,9 @@ Route::post('/do_login', 'Index/login/do_login')->name('user.do_login');
 
 // WebSocket onMessage
 Route::get('recv', 'Index/socket_message/recv')->name('socket_on_message');
+
+// live
+Route::get('/live', 'Index/live/live')->name('admin.live');
+Route::post('/uploader', 'Index/live/uploader')->name('admin.uploader');
+Route::post('/saves', 'Index/live/saves')->name('admin.uploader');
+Route::get('/detail', 'Index/index/detail')->name('home.detail');
