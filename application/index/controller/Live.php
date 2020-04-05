@@ -58,6 +58,27 @@ class Live extends Controller
     }
 
 
+    // 记录聊天信息
+    public function chart(Request $request)
+    {
+        $datas = $request->post();
+//        foreach ($server->ports[1]->connections as $fd) {
+//            $server->push($fd, 'Tests');
+//        }
+        $result = [
+            'user' => "Tom".rand(0, 2000),
+            'content' => $datas['content']
+        ];
+        $fds = RedisClient::getInstance()->sMembers(config('redis.live_charts_key'));
+        $server = WebSocketFrame::getInstance()->getServer();
+        foreach ($fds as $fd) {
+//            $server->push($fd, Util::show(Code::SUCCESS, 'OK', $result));
+            $server->push($fd, json_encode($result));
+        }
+
+    }
+
+
     /**
      * 上传图片
      * @param Request $request

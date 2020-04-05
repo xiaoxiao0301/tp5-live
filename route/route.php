@@ -24,3 +24,4 @@ Route::get('/live', 'Index/live/live')->name('admin.live');
 Route::post('/uploader', 'Index/live/uploader')->name('admin.uploader');
 Route::post('/saves', 'Index/live/saves')->name('admin.uploader');
 Route::get('/detail', 'Index/index/detail')->name('home.detail');
+Route::post('/chart', 'Index/live/chart')->name('home.chart');

@@ -7,5 +7,6 @@ return [
     'timeout' => 5,
     'user_register_key_prefix' => 'sms_'.uniqid().'_',
     // 直播 key
-    'live_outs_key' => 'live_game'
+    'live_outs_key' => 'live_game',
+    'live_charts_key' => 'live_chart',
 ];

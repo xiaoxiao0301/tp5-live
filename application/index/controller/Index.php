@@ -13,7 +13,13 @@ class Index extends Controller
 
     public function time()
     {
-        return date('Y-m-d H:i:s');
+        $time =  date('Y-m-d H:i:s');
+        $server = WebSocketFrame::getInstance()->getServer();
+        echo "个数:", count($server->connections), PHP_EOL;
+//        foreach ($server->connections as $fd) {
+//           $server->push($fd, $time);
+//        }
+        return $time;
     }
 
 

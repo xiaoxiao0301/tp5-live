@@ -37,10 +37,25 @@ return [
     'interval'              => 500,//系统定时器 时间间隔
     'task_worker_num'       => 4,//swoole 任务工作进程数量
     'Open' => function ($server, $request) {
+//        foreach ($server->ports[0]->connections as $fd) {
+//            echo "Client fd: ", $fd, PHP_EOL;
+//        }
+//        dump($server->getClientInfo($request->fd));
+        // type=live or type=chart
+        dump($request->server);
+        $typeStrs = $request->server['query_string'];
+        parse_str($typeStrs, $types);
+        if ($types['type'] == 'chart') {
+            $key = config('redis.live_charts_key');
+        } else {
+            $key = config('redis.live_outs_key');
+        }
+        echo "Type: ",$key,PHP_EOL;
         echo "server: handshake success with fd {$request->fd}\n";
         // 记录链接的用户 有序结合
-        $redis = \app\common\lib\db\RedisClient::getInstance();
-        $redis->sAdd(config('redis.live_outs_key'), $request->fd);
+//        $redis = \app\common\lib\db\RedisClient::getInstance();
+//        $redis->sAdd(config('redis.live_outs_key'), $request->fd);
+
     },
 ];
 
