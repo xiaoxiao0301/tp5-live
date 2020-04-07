@@ -1,6 +1,7 @@
 <?php
 namespace app\index\controller;
 
+use app\common\timer\MonitorTimer;
 use think\Controller;
 use think\swoole\WebSocketFrame;
 
@@ -31,5 +32,21 @@ class Index extends Controller
     public function detail()
     {
         return $this->fetch();
+    }
+
+    public function testTimers()
+    {
+        $port = 8001;
+        app('swoole')->tick(1000, function ($timer_id) use ($port) {
+            $shell = "netstat -anp 2> /dev/null | grep ".$port."| grep LISTEN | wc -l";
+            $execResult = shell_exec($shell);
+            if ($execResult != 1) {
+                echo "error: ", date('Y-m-d H:i:s'), PHP_EOL;
+            } else {
+                echo "success: ", date('Y-m-d H:i:s'), PHP_EOL;
+            }
+        });
+
+        return "123";
     }
 }
